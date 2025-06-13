@@ -1,8 +1,10 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+
 from sqlalchemy import CheckConstraint
+
+db = SQLAlchemy()
 
 # ------------------------------------------------------------------
 # 1. Base User (abstract)
@@ -14,6 +16,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(10), nullable=False)  # 'student' or 'admin'
+    contact = db.Column(db.String(15), nullable=True) 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     __table_args__ = (
@@ -44,7 +47,6 @@ class Student(User):
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     full_name = db.Column(db.String(100), nullable=False)
     usn = db.Column(db.String(30), unique=True, nullable=False)
-    contact = db.Column(db.String(15))
     branch = db.Column(db.String(20), nullable=False)
     tenth_percent = db.Column(db.Float)
     twelfth_percent = db.Column(db.Float)
