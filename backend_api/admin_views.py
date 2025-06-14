@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import db, Opportunity
+from models import db, Opportunity , Application
 from datetime import datetime
+from datetime import date
 
 # Admin Blueprint with URL Prefix
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -27,17 +28,19 @@ def create_opportunity():
 
     try:
         opportunity = Opportunity(
-            title=data['title'],
-            company=data['company'],
-            type=data['type'],
-            stipend=data.get('stipend'),
-            ctc=data.get('ctc'),
-            future_ctc_on_conversion=data.get('future_ctc_on_conversion'),
-            domain=data['domain'],
-            description=data['description'],
-            deadline=datetime.strptime(data['deadline'], '%Y-%m-%d'),
-            posted_by=identity['id']
-        )
+                title=data['title'],
+                company=data['company'],
+                type=data['type'],
+                stipend=data.get('stipend'),
+                ctc=data.get('ctc'),
+                future_ctc_on_conversion=data.get('future_ctc_on_conversion'),
+                duration_months=data.get('duration_months') if data['type'] in ['internship', 'internship_with_ctc'] else None,
+                domain=data['domain'],  
+                description=data['description'],
+                deadline=datetime.strptime(data['deadline'], '%Y-%m-%d'),
+                posted_by=identity['id']
+            )
+
         db.session.add(opportunity)
         db.session.commit()
 
@@ -79,3 +82,28 @@ def get_opportunities():
         'status': 'success',
         'opportunities': data
     }), 200
+
+
+
+
+@admin_bp.route('/analytics', methods=['GET'])
+@jwt_required()
+def analytics():
+    if get_jwt_identity()['role'] != 'admin':
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 403
+
+    today = date.today()
+
+    opportunities_today = Opportunity.query.filter(
+        db.func.date(Opportunity.created_at) == today
+    ).count()
+
+    analytics_data = {
+        'total_opportunities': Opportunity.query.count(),
+        'active_opportunities': Opportunity.query.filter_by(is_active=True).count(),
+        'total_applications': Application.query.count(),
+        'opportunities_today': opportunities_today
+    }
+
+    return jsonify({'status': 'success', 'data': analytics_data}), 200
+

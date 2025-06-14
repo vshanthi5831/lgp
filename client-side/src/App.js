@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import PrivateRoute from './context/PrivateRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import StudentDashboard from './pages/StudentDashboard';
+import OpportunityForm from './pages/OpportunityForm';
 const Home = () => (
   <div className="container mt-4">
     <h1>Welcome Home</h1>
@@ -31,6 +32,9 @@ function App() {
           {/* Protected Admin Route */}
           <Route element={<PrivateRoute requiredRole="admin" />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/opportunity/new" element={<OpportunityForm />} /> {/* ✅ 2. Add route */}
+
+
           </Route>
         </Routes>
       </Router>
