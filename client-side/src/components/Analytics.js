@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 const Analytics = () => {
   const [stats, setStats] = useState(null);
@@ -20,6 +24,19 @@ const Analytics = () => {
   }, []);
 
   if (!stats) return <p>Loading analytics...</p>;
+
+  const pieData = {
+  labels: ['Dream (18L+)', 'High (14-18L)', 'Good (8-14L)', 'IT (3-8L)'],
+  datasets: [
+    {
+      label: 'FTE Applications',
+      data: stats.fte_distribution || [0, 0, 0, 0],
+      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
+      borderWidth: 1,
+    },
+  ],
+};
+
 
   return (
     <div className="container mt-4">
@@ -47,6 +64,10 @@ const Analytics = () => {
               <h5>Active Opportunities</h5>
               <p className="display-6">{stats.active_opportunities}</p>
             </div>
+          </div>
+          <div className="mt-5">
+            <h5>FTE Applications by Payment Type</h5>
+            <Pie data={pieData} />
           </div>
         </div>
       </div>

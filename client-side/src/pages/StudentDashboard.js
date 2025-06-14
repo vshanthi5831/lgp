@@ -1,26 +1,12 @@
-<<<<<<< Updated upstream
-import React from 'react'
+import ApplicationList from '../components/ApplicationList';
 
 const StudentDashboard = () => {
   return (
-    <div>StudentDashboard</div>
-  )
-}
-
-export default StudentDashboard
-=======
-import React from 'react';
-import ApplicationList from '../components/ApplicationList.js'; // adjust path if needed
-
-const StudentDashboard = () => {
-  return (
-    <div className="container mt-4">
-      <h2>Student Dashboard</h2>
-      <p>Welcome! Here you can view your applications.</p>
-      <ApplicationList /> {/* ✅ Application list shown below */}
+    <div className="container">
+      <h2 className="mt-4">Student Dashboard</h2>
+      <ApplicationList />
     </div>
   );
 };
 
 export default StudentDashboard;
->>>>>>> Stashed changes

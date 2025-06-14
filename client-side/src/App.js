@@ -22,7 +22,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
           {/* Protected Student Route */}
           <Route element={<PrivateRoute requiredRole="student" />}>
             <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -32,6 +31,7 @@ function App() {
           <Route element={<PrivateRoute requiredRole="admin" />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Route>
+
         </Routes>
       </Router>
     </AuthProvider>
