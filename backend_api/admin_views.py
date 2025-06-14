@@ -46,3 +46,36 @@ def create_opportunity():
     except Exception as e:
         db.session.rollback()
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+
+@admin_bp.route('/opportunities', methods=['GET'])
+@jwt_required()
+def get_opportunities():
+    identity = get_jwt_identity()
+    admin_id = identity['id']
+
+    opportunities = Opportunity.query.order_by(Opportunity.created_at.desc()).all()
+
+    data = []
+    for opp in opportunities:
+        data.append({
+            'id': opp.id,
+            'title': opp.title,
+            'company': opp.company,
+            'type': opp.type,
+            'stipend': opp.stipend,
+            'ctc': opp.ctc,
+            'future_ctc_on_conversion': opp.future_ctc_on_conversion,
+            'domain': opp.domain,
+            'description': opp.description,
+            'deadline': opp.deadline.strftime('%Y-%m-%d'),
+            'posted_by_me': opp.posted_by == admin_id,
+            'is_active': opp.is_active,
+            'created_at': opp.created_at.strftime('%Y-%m-%d %H:%M')
+        })
+
+    return jsonify({
+        'status': 'success',
+        'opportunities': data
+    }), 200

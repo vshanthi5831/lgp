@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 from models import db, User, Student, Admin  
 
 from admin_views import admin_bp
-
+from student_views import student_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +23,7 @@ db.init_app(app)
 jwt = JWTManager(app)
 
 app.register_blueprint(admin_bp)
+app.register_blueprint(student_bp)
 
 
 
