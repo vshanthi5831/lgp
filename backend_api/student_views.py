@@ -3,22 +3,22 @@ from flask_jwt_extended import jwt_required
 from models import Opportunity
 from datetime import date
 
-# Student Blueprint with URL Prefix
+# Student Blueprint
 student_bp = Blueprint('student', __name__, url_prefix='/student')
 
 @student_bp.route('/opportunities', methods=['GET'])
 @jwt_required()
-def get_active_opportunities():
+def fetch_active_opportunities():
     today = date.today()
 
-    opportunities = Opportunity.query.filter(
-        Opportunity.is_active == True,
+    active_opportunities = Opportunity.query.filter(
+        Opportunity.is_active.is_(True),
         Opportunity.deadline >= today
     ).order_by(Opportunity.deadline.asc()).all()
 
-    data = []
-    for opp in opportunities:
-        data.append({
+    opportunities_data = []
+    for opp in active_opportunities:
+        opportunities_data.append({
             'id': opp.id,
             'title': opp.title,
             'company': opp.company,
@@ -34,6 +34,5 @@ def get_active_opportunities():
 
     return jsonify({
         'status': 'success',
-        'opportunities': data
+        'opportunities': opportunities_data
     }), 200
-
