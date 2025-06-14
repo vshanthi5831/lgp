@@ -7,10 +7,12 @@ const ApplicationList = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const res = await axios.get('/api/applications'); // adjust if needed
+        const res = await axios.get('/api/student/applications', {
+          withCredentials: true, // important if using session cookies
+        });
         setApplications(res.data);
       } catch (err) {
-        console.error('Failed to fetch applications:', err);
+        console.error('Error fetching student applications:', err);
       }
     };
 
@@ -21,10 +23,10 @@ const ApplicationList = () => {
     <div className="container mt-4">
       <h3 className="mb-4">My Applications</h3>
       {applications.length === 0 ? (
-        <p>No applications yet.</p>
+        <p>No applications found.</p>
       ) : (
-        <table className="table table-striped shadow">
-          <thead>
+        <table className="table table-hover shadow">
+          <thead className="table-light">
             <tr>
               <th>Title</th>
               <th>Company</th>
