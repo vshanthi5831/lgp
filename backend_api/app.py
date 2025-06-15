@@ -9,6 +9,9 @@ from models import db, User, Student, Admin
 from admin_views import admin_bp
 from student_views import student_bp
 
+import json
+
+from flask_mail import Mail , Message
 app = Flask(__name__)
 CORS(app)
 
@@ -17,6 +20,16 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'test85482480@gmail.com'            # <-- your email
+app.config['MAIL_PASSWORD'] = 'yzme lrlt bbeq ynmh'      # <-- use app password, not your Gmail password
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = ('NXT help', 'test85482480@gmail.com'),
+
+mail = Mail(app)
 
 # Init Extensions
 db.init_app(app)

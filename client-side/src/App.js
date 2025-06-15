@@ -8,11 +8,12 @@ import PrivateRoute from './context/PrivateRoute';
 import AdminDashboard from './pages/AdminDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import OpportunityForm from './pages/OpportunityForm';
-const Home = () => (
-  <div className="container mt-4">
-    <h1>Welcome Home</h1>
-  </div>
-);
+import ApplyOpportunity from './components/ApplyOpportunity';
+import AdminApplications from './pages/AdminApplications';
+import OpportunityApplicants from './pages/OpportunityApplicants ';
+import StudentProfile from './pages/StudentProfile';
+import StudentApplications from './pages/StudentApplications.js';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -26,14 +27,23 @@ function App() {
 
           {/* Protected Student Route */}
           <Route element={<PrivateRoute requiredRole="student" />}>
-            <Route path="/student/dashboard" element={<StudentDashboard />} />
+            <Route path="/student/opportunities" element={<StudentDashboard />} />
+            <Route path="/student/apply/:opportunityId" element={<ApplyOpportunity />} />
+            <Route path ="student/profile" element ={<StudentProfile />} />
+            <Route path="/student/applications" element={<StudentApplications />} />
+
+            
+
+
+
           </Route>
 
           {/* Protected Admin Route */}
           <Route element={<PrivateRoute requiredRole="admin" />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/opportunity/new" element={<OpportunityForm />} /> {/* ✅ 2. Add route */}
-
+            <Route path ="/admin/opportunity/new" element={<OpportunityForm />} />
+            <Route path="/admin/applications" element={<AdminApplications />} />
+            <Route path="/admin/opportunity/:id/applicants" element={<OpportunityApplicants />} />
 
           </Route>
         </Routes>

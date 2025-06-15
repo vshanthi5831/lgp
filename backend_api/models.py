@@ -87,6 +87,7 @@ class Admin(User):
 # ------------------------------------------------------------------
 # 4. Opportunity Table
 
+
 class Opportunity(db.Model):
     __tablename__ = 'opportunities'
 
@@ -94,13 +95,11 @@ class Opportunity(db.Model):
     title = db.Column(db.String(100), nullable=False)
     company = db.Column(db.String(100), nullable=False)
 
-    type = db.Column(db.String(30), nullable=False)
+    type = db.Column(db.String(30), nullable=False)  # Extended types
 
     stipend = db.Column(db.String(50), nullable=True)
     ctc = db.Column(db.String(50), nullable=True)
     future_ctc_on_conversion = db.Column(db.String(50), nullable=True)
-
-    duration_months = db.Column(db.Integer, nullable=True) 
 
     domain = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -118,6 +117,7 @@ class Opportunity(db.Model):
             name='valid_opportunity_type'
         ),
     )
+
 # ------------------------------------------------------------------
 # 5. Application Table
 

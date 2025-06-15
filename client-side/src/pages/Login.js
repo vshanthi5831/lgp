@@ -18,7 +18,7 @@ const Login = () => {
 
     if (result.success) {
       if (result.role === 'student') {
-        navigate('/student/dashboard');
+        navigate('/student/opportunities');
       } else if (result.role === 'admin') {
         navigate('/admin/dashboard');
       }

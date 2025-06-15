@@ -23,12 +23,9 @@ const OpportunityForm = () => {
 
     setFormData((prev) => {
       const updated = { ...prev, [name]: value };
-
-      // If type changes and is not internship, clear duration_months
       if (name === 'type' && value !== 'internship') {
         updated.duration_months = '';
       }
-
       return updated;
     });
   };
@@ -73,80 +70,112 @@ const OpportunityForm = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Create New Opportunity</h2>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <div className="card shadow-sm p-4" style={{ width: '100%', maxWidth: '600px', borderRadius: '15px' }}>
+        <h3 className="text-center mb-4">Create Opportunity</h3>
 
-      {message && <div className="alert alert-success">{message}</div>}
-      {error && <div className="alert alert-danger">{error}</div>}
+        {message && <div className="alert alert-success">{message}</div>}
+        {error && <div className="alert alert-danger">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-3">
-          <label className="form-label">Title*</label>
-          <input type="text" name="title" className="form-control" value={formData.title} onChange={handleChange} required />
-        </div>
+        <form onSubmit={handleSubmit}>
+          {[
+            { label: 'Title*', name: 'title', type: 'text' },
+            { label: 'Company*', name: 'company', type: 'text' },
+          ].map((field, i) => (
+            <div className="mb-3" key={i}>
+              <label className="form-label">{field.label}</label>
+              <input
+                type={field.type}
+                name={field.name}
+                className="form-control"
+                value={formData[field.name]}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          ))}
 
-        <div className="mb-3">
-          <label className="form-label">Company*</label>
-          <input type="text" name="company" className="form-control" value={formData.company} onChange={handleChange} required />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Type*</label>
-          <select name="type" className="form-select" value={formData.type} onChange={handleChange} required>
-            <option value="">Select Type</option>
-            <option value="internship">Internship</option>
-            <option value="fulltime">Full-Time</option>
-            <option value="internship_with_ctc">Internship with CTC</option>
-          </select>
-        </div>
-
-        {formData.type === 'internship' || formData.type === 'internship_with_ctc' && (
           <div className="mb-3">
-            <label className="form-label">Duration (in months)*</label>
+            <label className="form-label">Type*</label>
+            <select name="type" className="form-select" value={formData.type} onChange={handleChange} required>
+              <option value="">Select Type</option>
+              <option value="internship">Internship</option>
+              <option value="fulltime">Full-Time</option>
+              <option value="internship_with_ctc">Internship with CTC</option>
+            </select>
+          </div>
+
+          {formData.type === 'internship' && (
+            <div className="mb-3">
+              <label className="form-label">Duration (months)*</label>
+              <input
+                type="number"
+                name="duration_months"
+                className="form-control"
+                min="1"
+                value={formData.duration_months}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+
+          {[
+            { label: 'Stipend', name: 'stipend' },
+            { label: 'CTC', name: 'ctc' },
+            { label: 'Future CTC (On Conversion)', name: 'future_ctc_on_conversion' },
+          ].map((field, i) => (
+            <div className="mb-3" key={i}>
+              <label className="form-label">{field.label}</label>
+              <input
+                type="number"
+                name={field.name}
+                className="form-control"
+                value={formData[field.name]}
+                onChange={handleChange}
+              />
+            </div>
+          ))}
+
+          <div className="mb-3">
+            <label className="form-label">Domain*</label>
             <input
-              type="number"
-              name="duration_months"
+              type="text"
+              name="domain"
               className="form-control"
-              value={formData.duration_months}
+              value={formData.domain}
               onChange={handleChange}
-              min="1"
               required
             />
           </div>
-        )}
 
-        <div className="mb-3">
-          <label className="form-label">Stipend</label>
-          <input type="number" name="stipend" className="form-control" value={formData.stipend} onChange={handleChange} />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Description*</label>
+            <textarea
+              name="description"
+              className="form-control"
+              rows="4"
+              value={formData.description}
+              onChange={handleChange}
+              required
+            ></textarea>
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">CTC</label>
-          <input type="number" name="ctc" className="form-control" value={formData.ctc} onChange={handleChange} />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Deadline*</label>
+            <input
+              type="date"
+              name="deadline"
+              className="form-control"
+              value={formData.deadline}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Future CTC (On Conversion)</label>
-          <input type="number" name="future_ctc_on_conversion" className="form-control" value={formData.future_ctc_on_conversion} onChange={handleChange} />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Domain*</label>
-          <input type="text" name="domain" className="form-control" value={formData.domain} onChange={handleChange} required />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Description*</label>
-          <textarea name="description" className="form-control" rows="4" value={formData.description} onChange={handleChange} required></textarea>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Deadline*</label>
-          <input type="date" name="deadline" className="form-control" value={formData.deadline} onChange={handleChange} required />
-        </div>
-
-        <button type="submit" className="btn btn-primary">Create Opportunity</button>
-      </form>
+          <button type="submit" className="btn btn-primary w-100">Create Opportunity</button>
+        </form>
+      </div>
     </div>
   );
 };
