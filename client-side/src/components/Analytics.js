@@ -9,6 +9,7 @@ const Analytics = () => {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
+<<<<<<< HEAD
   const fetchAnalytics = async () => {
     try {
       const token = localStorage.getItem('authToken');  // or wherever your JWT is stored
@@ -32,6 +33,21 @@ const Analytics = () => {
   fetchAnalytics();
 }, []);
 
+=======
+    const fetchAnalytics = async () => {
+      try {
+        const res = await axios.get('/api/admin/analytics', {
+          withCredentials: true,
+        });
+        setStats(res.data);
+      } catch (err) {
+        console.error('Error fetching analytics:', err);
+      }
+    };
+
+    fetchAnalytics();
+  }, []);
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61
 
   if (!stats) return <p>Loading analytics...</p>;
 
@@ -85,4 +101,8 @@ const Analytics = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Analytics;
+=======
+export default Analytics;
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61

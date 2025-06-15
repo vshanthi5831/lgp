@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,6 +45,27 @@ const Home = () => {
       </div>
     </div>
   );
+=======
+import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+
+const Home = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    } else if (user.role === 'student') {
+      navigate('/student-dashboard');
+    } else if (user.role === 'admin') {
+      navigate('/admin-dashboard');
+    }
+  }, [user, navigate]);
+
+  return null; // optional: you can return a spinner/loading state here
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61
 };
 
 export default Home;

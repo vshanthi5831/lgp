@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61
 // src/components/PostOpportunity.js
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -96,4 +99,8 @@ const PostOpportunity = () => {
   );
 };
 
+<<<<<<< HEAD
 export default PostOpportunity;
+=======
+export default PostOpportunity;
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61

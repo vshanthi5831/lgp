@@ -187,6 +187,7 @@ def get_applicants_for_opportunity(opp_id):
         'applicants': applicants_data
     }), 200
 
+<<<<<<< HEAD
 
 
 
@@ -194,10 +195,16 @@ def get_applicants_for_opportunity(opp_id):
 @admin_bp.route('/opportunity/<int:opp_id>/deactivate', methods=['PATCH'])
 @jwt_required()
 def deactivate_opportunity(opp_id):
+=======
+@admin_bp.route('/analytics', methods=['GET'])
+@jwt_required()
+def platform_analytics():
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61
     identity = get_jwt_identity()
     if identity['role'] != 'admin':
         return jsonify({'status': 'error', 'message': 'Unauthorized'}), 403
 
+<<<<<<< HEAD
     opportunity = Opportunity.query.get(opp_id)
 
     if not opportunity:
@@ -263,3 +270,35 @@ def download_applicants_excel(opp_id):
         as_attachment=True,
         download_name=filename
     )
+=======
+    try:
+        total_opportunities = Opportunity.query.count()
+        total_applications = Application.query.count()
+        active_opportunities = Opportunity.query.filter_by(is_active=True).count()
+
+        # FTE distribution
+        fte_opps = Opportunity.query.filter_by(type='fte').all()
+        count_dream = count_high = count_good = count_it = 0
+
+        for opp in fte_opps:
+            ctc = opp.ctc or 0
+            if ctc >= 18:
+                count_dream += 1
+            elif 14 <= ctc < 18:
+                count_high += 1
+            elif 8 <= ctc < 14:
+                count_good += 1
+            elif 3 <= ctc < 8:
+                count_it += 1
+
+        return jsonify({
+            'status': 'success',
+            'total_opportunities': total_opportunities,
+            'total_applications': total_applications,
+            'active_opportunities': active_opportunities,
+            'fte_distribution': [count_dream, count_high, count_good, count_it]
+        }), 200
+
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+>>>>>>> 4a24703655aca50bf15fb2142d2ea21c71fcaf61

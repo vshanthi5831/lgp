@@ -24,7 +24,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
           {/* Protected Student Route */}
           <Route element={<PrivateRoute requiredRole="student" />}>
             <Route path="/student/opportunities" element={<StudentDashboard />} />
@@ -46,6 +45,7 @@ function App() {
             <Route path="/admin/opportunity/:id/applicants" element={<OpportunityApplicants />} />
 
           </Route>
+
         </Routes>
       </Router>
     </AuthProvider>
